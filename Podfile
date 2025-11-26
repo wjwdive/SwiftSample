@@ -1,4 +1,8 @@
 
+# 定义CocoaPods的索引库源 - CDN源速度更快
+source 'https://cdn.cocoapods.org/' # 优先使用CDN源
+# source 'https://github.com/CocoaPods/Specs.git' # 注释掉完整git源以避免克隆大型仓库
+
 # Uncomment the next line to define a global platform for your project
 platform :ios, '13.0'
 # 禁用输入输出路径，避免 Podfile.lock 冲突.
@@ -32,7 +36,7 @@ end
 
 def ui_pods
   pod 'SnapKit', '= 5.0.1'
-  pod 'Kingfisher', '= 5.15.6'
+  pod 'Kingfisher', '= 7.0'
   #pod 'RxCocoa', '= 5.1.1'
   #pod 'RxDataSources', '= 4.0.1'
   # 表格视图优化

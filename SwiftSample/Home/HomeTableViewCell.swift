@@ -1,13 +1,12 @@
 import UIKit
 import SnapKit
+import Kingfisher
 
 class HomeTableViewCell: UITableViewCell {
     // 单元格重用标识符
     static let reuseIdentifier = "HomeTableViewCell"
     
-    // 当前加载的图片任务
-    private var imageLoadingTask: URLSessionDataTask?
-    // 当前图片URL
+    // 当前图片URL (Kingfisher内部管理任务)
     private var currentImageURL: URL?
     
     // UI元素
@@ -147,29 +146,39 @@ class HomeTableViewCell: UITableViewCell {
         configureImage(for: item)
     }
     
-    // 优化的图片加载方法
+    // 使用Kingfisher优化的图片加载方法
     private func configureImage(for item: HomeItem) {
-        // 取消正在进行的图片加载任务
-        imageLoadingTask?.cancel()
+        // 取消当前图片视图的所有加载任务
+        itemImageView.kf.cancelDownloadTask()
         
         if let imageURLString = item.imageURL, let imageURL = URL(string: imageURLString) {
             // 缓存当前URL
             currentImageURL = imageURL
             
-            // 显示占位符
+            // 重置图片视图状态
             itemImageView.image = nil
             itemImageView.backgroundColor = .systemGray5
             itemImageView.isHidden = false
             
-            // 检查是否在屏幕外，实现延迟加载
+            // 配置Kingfisher的下载和缓存选项 (Kingfisher 7.0版本)
+            let options: [KingfisherOptionsInfoItem] = [
+                // 内存和磁盘缓存策略
+                .cacheOriginalImage,
+                // 缓存有效期 - 1天
+                .diskCacheExpiration(.days(1)),
+                // 下载优先级
+                .downloadPriority(1.0)
+            ]
+            
+            // 加载图片 - 检查是否在屏幕外，实现延迟加载
             if !isVisibleInWindow() {
                 // 视图不在窗口中，延迟加载
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                    self?.loadImageIfVisible(url: imageURL)
+                    self?.loadImageIfVisible(url: imageURL, options: options)
                 }
             } else {
                 // 视图在窗口中，立即加载
-                loadImage(url: imageURL)
+                loadImage(url: imageURL, options: options)
             }
             
             // 重置标签到带图片的布局
@@ -192,54 +201,24 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     // 仅在视图可见时加载图片
-    private func loadImageIfVisible(url: URL) {
+    private func loadImageIfVisible(url: URL, options: [KingfisherOptionsInfoItem]) {
         guard currentImageURL == url, isVisibleInWindow() else {
             return
         }
-        loadImage(url: url)
+        loadImage(url: url, options: options)
     }
     
-    // 加载图片的核心方法
-    private func loadImage(url: URL) {
-        // 创建新的加载任务
-        imageLoadingTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            // 检查是否是被取消的任务或发生错误
-            guard let self = self, 
-                  error == nil, 
-                  let data = data, 
-                  let httpResponse = response as? HTTPURLResponse, 
-                  httpResponse.statusCode == 200 else {
-                // 如果不是取消错误，设置为加载失败状态
-                if let error = error, (error as NSError).code != NSURLErrorCancelled {
-                    DispatchQueue.main.async {
-                        self?.itemImageView.backgroundColor = .systemGray4
-                    }
-                }
-                return
-            }
-            
-            // 检查加载的URL是否与当前需要的URL一致
-            guard self.currentImageURL == url else {
-                return
-            }
-            
-            // 在主线程更新UI
-            DispatchQueue.main.async {
-                // 再次检查URL一致性
-                guard self.currentImageURL == url else {
-                    return
-                }
-                
-                // 使用淡入动画平滑过渡
-                UIView.transition(with: self.itemImageView, duration: 0.3, options: .transitionCrossDissolve) {
-                    self.itemImageView.image = UIImage(data: data)
-                    self.itemImageView.backgroundColor = .clear
-                }
-            }
-        }
-        
-        // 开始任务
-        imageLoadingTask?.resume()
+    // 使用Kingfisher加载图片的核心方法 (Kingfisher 7.0版本)
+    private func loadImage(url: URL, options: [KingfisherOptionsInfoItem]) {
+        // 使用Kingfisher加载图片，包含缓存机制和过渡动画
+        itemImageView.kf.setImage(
+            with: url,
+            placeholder: nil,  // 不使用静态占位图，而是使用背景色作为占位
+            options: options + [
+                // 添加平滑的淡入过渡动画
+                .transition(.fade(0.3))
+            ]
+        )
     }
     
     // 重置带图片的约束
@@ -299,9 +278,8 @@ class HomeTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        // 取消正在进行的图片加载任务
-        imageLoadingTask?.cancel()
-        imageLoadingTask = nil
+        // 取消Kingfisher的图片加载任务
+        itemImageView.kf.cancelDownloadTask()
         currentImageURL = nil
         
         // 重置内容

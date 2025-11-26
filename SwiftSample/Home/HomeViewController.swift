@@ -192,8 +192,11 @@ class HomeViewController: UIViewController {
         
         // 模拟网络请求延迟
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            // 生成新数据
-            let newItems = HomeItem.generateMockData(count: 10)
+            // 获取当前最大ID，确保新数据ID连续且不重复
+            let maxID = self.items.max { $0.id < $1.id }?.id ?? 0
+            
+            // 生成新数据，指定起始ID
+            let newItems = self.generateMockDataWithStartingID(startingID: maxID + 1, count: 10)
             
             // 将新数据追加到现有数据中
             let updatedItems = self.items + newItems
@@ -363,6 +366,30 @@ class HomeViewController: UIViewController {
         for item in items {
             contentHashes[item.id] = item.contentHash
         }
+    }
+    
+    // 生成指定起始ID的模拟数据
+    private func generateMockDataWithStartingID(startingID: Int, count: Int) -> [HomeItem] {
+        var items = [HomeItem]()
+        let currentDate = Date()
+        
+        for i in 0..<count {
+            let itemID = startingID + i
+            let randomDays = Int.random(in: 0...30)
+            let date = Calendar.current.date(byAdding: .day, value: -randomDays, to: currentDate) ?? currentDate
+            let urlStr = String(format: "http://fb.jarvissky.com:3001/avatars/avatar%03d.jpg", itemID)
+            let item = HomeItem(
+                id: itemID,
+                title: "示例标题 \(itemID)",
+                description: "这是示例内容描述，包含了关于项目 \(itemID) 的详细信息和相关说明。这是一个模拟的长文本描述。",
+                imageURL: itemID % 3 == 0 ? nil : urlStr,
+                createdAt: date,
+                isFavorite: itemID % 5 == 0
+            )
+            items.append(item)
+        }
+        
+        return items
     }
     
     // 更新数据项的收藏状态
