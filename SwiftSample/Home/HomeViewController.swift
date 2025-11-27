@@ -1,50 +1,6 @@
 import UIKit
 import SnapKit
 
-// MARK: - 常量定义
-private extension UIColor {
-    // 支持暗黑模式的颜色定义
-    static let primaryBackground: UIColor = {
-        if #available(iOS 13.0, *) {
-            return UIColor {
-                $0.userInterfaceStyle == .dark ? .systemBackground : .systemBackground
-            }
-        } else {
-            return .systemBackground
-        }
-    }()
-    
-    static let secondaryBackground: UIColor = {
-        if #available(iOS 13.0, *) {
-            return UIColor {
-                $0.userInterfaceStyle == .dark ? .secondarySystemBackground : .secondarySystemBackground
-            }
-        } else {
-            return .secondarySystemBackground
-        }
-    }()
-    
-    static let primaryText: UIColor = {
-        if #available(iOS 13.0, *) {
-            return UIColor {
-                $0.userInterfaceStyle == .dark ? .label : .label
-            }
-        } else {
-            return .black
-        }
-    }()
-    
-    static let secondaryText: UIColor = {
-        if #available(iOS 13.0, *) {
-            return UIColor {
-                $0.userInterfaceStyle == .dark ? .secondaryLabel : .secondaryLabel
-            }
-        } else {
-            return .gray
-        }
-    }()
-}
-
 // 首页列表数据模型
 struct HomeItem: Identifiable, Equatable {
     let id: Int
@@ -92,7 +48,7 @@ class HomeViewController: UIViewController {
     // 表格视图
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .primaryBackground
+        tableView.backgroundColor = .systemBackground
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
@@ -149,7 +105,7 @@ class HomeViewController: UIViewController {
     // 加载更多的脚注视图
     private lazy var loadingFooterView: UIView = {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
-        footerView.backgroundColor = .secondaryBackground
+        footerView.backgroundColor = .secondarySystemBackground
         
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -159,7 +115,7 @@ class HomeViewController: UIViewController {
         let loadingLabel = UILabel()
         loadingLabel.translatesAutoresizingMaskIntoConstraints = false
         loadingLabel.text = "正在加载更多..."
-        loadingLabel.textColor = .secondaryText
+        loadingLabel.textColor = .secondaryLabel
         loadingLabel.font = UIFont.systemFont(ofSize: 14)
         
         footerView.addSubview(activityIndicator)
@@ -179,7 +135,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupTableView()
+        setupTableView() // 添加这一行，设置表格视图的数据源和代理
         loadData()
     }
     
@@ -222,24 +178,19 @@ class HomeViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .primaryBackground
-        title = "首页"
+        // 设置视图背景色
+        view.backgroundColor = .white
         
         // 添加表格视图
         view.addSubview(tableView)
         
-        // 适配安全区域
-        if #available(iOS 11.0, *) {
-            tableView.snp.makeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-                $0.leading.trailing.equalToSuperview()
-            }
-        } else {
-            tableView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
+        // 设置表格视图约束
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+        
+        // 设置刷新控件
+        setupRefreshControl()
     }
     
     private func setupTableView() {
@@ -426,29 +377,12 @@ extension HomeViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate 滚动处理扩展
 extension HomeViewController {
-    // 监听系统主题变化
+    // 监听系统主题变化 - 简化为基础实现
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if #available(iOS 13.0, *) {
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                // 主题变化时更新UI
-                tableView.backgroundColor = .primaryBackground
-                
-                // 更新刷新控件颜色
-                refreshControl.tintColor = .label
-                
-                // 重建下拉刷新属性文本
-                let attributes: [NSAttributedString.Key: Any] = [
-                    .font: UIFont.systemFont(ofSize: 14),
-                    .foregroundColor: UIColor.label
-                ]
-                refreshControl.attributedTitle = NSAttributedString(string: refreshControl.isRefreshing ? "正在刷新..." : "下拉刷新", attributes: attributes)
-                
-                // 更新加载脚注视图颜色
-                loadingFooterView.backgroundColor = .secondaryBackground
-            }
-        }
+        // iOS会自动处理系统颜色的深色/浅色模式切换
+        // 仅在需要额外处理时添加代码
     }
     
     // 检测滚动以触发加载更多

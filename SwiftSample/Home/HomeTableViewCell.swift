@@ -294,6 +294,9 @@ class HomeTableViewCell: UITableViewCell {
         itemImageView.backgroundColor = .systemGray5
         itemImageView.isHidden = false
         
+        // 重置收藏按钮状态
+        favoriteButton.tintColor = .secondaryLabel
+        
         // 优化：避免在prepareForReuse中移除和重建所有约束
         // 只需重置位置关键的约束，其他约束保留
         resetEssentialConstraintsForReuse()
@@ -307,5 +310,12 @@ class HomeTableViewCell: UITableViewCell {
             $0.trailing.equalTo(favoriteButton.snp.leading).offset(-8)
             $0.top.equalTo(itemImageView.snp.top)
         }
+    }
+    
+    // UIKit会自动处理系统颜色的深色/浅色模式切换
+    // 不需要额外的主题管理代码
+    
+    deinit {
+        // 清理工作已在prepareForReuse中完成
     }
 }

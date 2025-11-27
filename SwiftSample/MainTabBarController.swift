@@ -9,8 +9,8 @@ class MainTabBarController: UITabBarController {
     
     private func setupTabBar() {
         // 设置TabBar的基本外观
-        tabBar.tintColor = UIColor.systemBlue
-        tabBar.unselectedItemTintColor = UIColor.systemGray
+        tabBar.tintColor = .systemBlue
+        tabBar.unselectedItemTintColor = .secondaryLabel
         
         // 适配iOS 15及以上版本的TabBar外观
         if #available(iOS 15.0, *) {
@@ -18,7 +18,7 @@ class MainTabBarController: UITabBarController {
             
             // 配置背景和阴影
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.systemBackground
+            appearance.backgroundColor = .systemBackground
             
             // 移除顶部阴影线
             appearance.shadowColor = nil
@@ -30,9 +30,9 @@ class MainTabBarController: UITabBarController {
                 .font: UIFont.systemFont(ofSize: 10, weight: .medium)
             ]
             
-            appearance.stackedLayoutAppearance.normal.iconColor = .systemGray
+            appearance.stackedLayoutAppearance.normal.iconColor = .secondaryLabel
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-                .foregroundColor: UIColor.systemGray,
+                .foregroundColor: UIColor.secondaryLabel,
                 .font: UIFont.systemFont(ofSize: 10, weight: .regular)
             ]
             
@@ -45,7 +45,7 @@ class MainTabBarController: UITabBarController {
             // iOS 14及以下版本的配置
             tabBar.shadowImage = UIImage()
             tabBar.backgroundImage = UIImage()
-            tabBar.backgroundColor = UIColor.systemBackground
+            tabBar.backgroundColor = .systemBackground
             
             // 配置标签栏字体
             UITabBarItem.appearance().setTitleTextAttributes([
@@ -55,7 +55,7 @@ class MainTabBarController: UITabBarController {
             
             UITabBarItem.appearance().setTitleTextAttributes([
                 .font: UIFont.systemFont(ofSize: 10, weight: .regular),
-                .foregroundColor: UIColor.systemGray
+                .foregroundColor: UIColor.secondaryLabel
             ], for: .normal)
         }
         

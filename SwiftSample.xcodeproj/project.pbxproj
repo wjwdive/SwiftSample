@@ -140,6 +140,7 @@
 		6F23EF652ED33CC500C5956E /* SwiftSample */ = {
 			isa = PBXGroup;
 			children = (
+				6F23EFB02ED6FA2000C5956E /* Common */,
 				6F23EFAD2ED3570B00C5956E /* Profile */,
 				6F23EFAC2ED356FB00C5956E /* Discovery */,
 				6F23EFAA2ED356E000C5956E /* Home */,
@@ -204,6 +205,21 @@
 				6F23EF972ED33F5000C5956E /* ProfileViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		6F23EFB02ED6FA2000C5956E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6F23EFB12ED6FA2000C5956E /* Theme */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		6F23EFB12ED6FA2000C5956E /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		BED767358E7EA6B466629435 /* Pods */ = {
