@@ -32,6 +32,8 @@
 		6F23EFA82ED33F5100C5956E /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23EF9A2ED33F5000C5956E /* DiscoveryViewController.swift */; };
 		6F23EFA92ED33F5100C5956E /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23EF9A2ED33F5000C5956E /* DiscoveryViewController.swift */; };
 		6F23EFAF2ED35C4400C5956E /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23EFAE2ED35C4400C5956E /* HomeTableViewCell.swift */; };
+		6F23EFC62EE08A6A00C5956E /* HotListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23EFC42EE08A6900C5956E /* HotListItem.swift */; };
+		6F23EFC72EE08A6A00C5956E /* HotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F23EFC52EE08A6900C5956E /* HotTableViewCell.swift */; };
 		706839032DFA4F13ECF4FFB0 /* libPods-SwiftSampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8186BAFCAB935D2D54212F4C /* libPods-SwiftSampleTests.a */; };
 		8228FB3E32C1B0BFA5CD7810 /* libPods-SwiftSampleUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4D9F8D710DB54376EC236 /* libPods-SwiftSampleUITests.a */; };
 		AAF7AA807111F2CBA8647E8A /* Pods_SwiftSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B983A0CF1FA0215452FF00DD /* Pods_SwiftSample.framework */; };
@@ -77,6 +79,8 @@
 		6F23EF992ED33F5000C5956E /* HotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotViewController.swift; sourceTree = "<group>"; };
 		6F23EF9A2ED33F5000C5956E /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
 		6F23EFAE2ED35C4400C5956E /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		6F23EFC42EE08A6900C5956E /* HotListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotListItem.swift; sourceTree = "<group>"; };
+		6F23EFC52EE08A6900C5956E /* HotTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotTableViewCell.swift; sourceTree = "<group>"; };
 		7A2115DB001A0B1538B209B6 /* Pods-SwiftSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSample.debug.xcconfig"; path = "Target Support Files/Pods-SwiftSample/Pods-SwiftSample.debug.xcconfig"; sourceTree = "<group>"; };
 		8186BAFCAB935D2D54212F4C /* libPods-SwiftSampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwiftSampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		860DB12E4D8B9EF21BC6F7BC /* Pods-SwiftSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSample.release.xcconfig"; path = "Target Support Files/Pods-SwiftSample/Pods-SwiftSample.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 		6F23EFAB2ED356EB00C5956E /* Hot */ = {
 			isa = PBXGroup;
 			children = (
+				6F23EFC42EE08A6900C5956E /* HotListItem.swift */,
+				6F23EFC52EE08A6900C5956E /* HotTableViewCell.swift */,
 				6F23EF992ED33F5000C5956E /* HotViewController.swift */,
 			);
 			path = Hot;
@@ -469,9 +475,11 @@
 				6F23EF6B2ED33CC500C5956E /* ViewController.swift in Sources */,
 				6F23EF672ED33CC500C5956E /* AppDelegate.swift in Sources */,
 				6F23EF9E2ED33F5100C5956E /* ProfileViewController.swift in Sources */,
+				6F23EFC72EE08A6A00C5956E /* HotTableViewCell.swift in Sources */,
 				6F23EF9B2ED33F5100C5956E /* MainTabBarController.swift in Sources */,
 				6F23EFA42ED33F5100C5956E /* HotViewController.swift in Sources */,
 				6F23EF692ED33CC500C5956E /* SceneDelegate.swift in Sources */,
+				6F23EFC62EE08A6A00C5956E /* HotListItem.swift in Sources */,
 				6F23EFAF2ED35C4400C5956E /* HomeTableViewCell.swift in Sources */,
 				6F23EFA12ED33F5100C5956E /* HomeViewController.swift in Sources */,
 				6F23EFA72ED33F5100C5956E /* DiscoveryViewController.swift in Sources */,

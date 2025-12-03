@@ -4,7 +4,7 @@ import Kingfisher
 
 class HomeTableViewCell: UITableViewCell {
     // 单元格重用标识符
-    static let reuseIdentifier = "HomeTableViewCell"
+    let reuseIdentifier = "HomeTableViewCell"
     
     // 当前图片URL (Kingfisher内部管理任务)
     private var currentImageURL: URL?

@@ -25,6 +25,7 @@ def core_pods
   # pod 'Moya/RxSwift', '= 14.0.0'
   pod 'ObjectMapper', '= 4.4.2'
   pod 'Toast-Swift', '= 5.1.0'
+  pod 'MJRefresh', '= 3.7.9'
 end
 
 # def thirdparty_pods
